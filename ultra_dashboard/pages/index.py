@@ -1,6 +1,6 @@
 from dash import html, register_page
 
-register_page(__name__, path="/")
+register_page(__name__, path="/", name="UltraDashboard: Home")
 
 layout = html.Div([
     html.P([
