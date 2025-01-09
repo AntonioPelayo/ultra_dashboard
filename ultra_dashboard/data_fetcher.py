@@ -2,7 +2,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 
-from config import DATABASE_URL
+from ultra_dashboard.config import DATABASE_URL
 
 def get_finishers_per_year(race):
     """
