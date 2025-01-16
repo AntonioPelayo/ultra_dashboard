@@ -6,6 +6,22 @@ from ultra_dashboard.config import DATABASE_URL
 
 DATABASE_ENGINE = create_engine(DATABASE_URL)
 
+def get_race_table_name(race):
+    """
+    Returns the table name for the given race.
+
+    Args:
+        race (str): The name of the race.
+    Returns:
+        str: The corresponding table name in the database.
+    """
+    if race == "WSER":
+        return "wser_historical_results"
+    elif race == "Big Alta":
+        return "big_alta"
+    else:
+        raise ValueError(f"Unknown race: {race}")
+
 def execute_query(query):
     """
     Executes the given SQL query on the PostgreSQL database.
@@ -31,12 +47,9 @@ def get_finishers_per_year(race):
     Returns:
         pd.DataFrame: A DataFrame with columns "year" and "finishers".
     """
-    if race == "WSER":
-        table = "wser_historical_results"
-
     return execute_query(f"""
         SELECT year, COUNT(*) AS finishers
-        FROM {table}
+        FROM {get_race_table_name(race)}
         WHERE time != '00:00:00'
         GROUP BY year
         ORDER BY year;
@@ -52,12 +65,9 @@ def get_winners_per_year(race):
     Returns:
         pd.DataFrame: A DataFrame with first place finisher data for each year.
     """
-    if race == "WSER":
-        table = "wser_historical_results"
-
     return execute_query(f"""
         SELECT *
-        FROM {table}
+        FROM {get_race_table_name(race)}
         WHERE place = 1
         ORDER BY year;
     """)
