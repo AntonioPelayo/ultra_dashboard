@@ -15,6 +15,7 @@ def main():
     print("Testing database connection...")
     if test_connection(db_url):
         print("Connection successful.")
+    # Else: error message is printed by test_connection
 
 if __name__ == "__main__":
     main()
