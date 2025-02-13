@@ -25,17 +25,20 @@ def race_table_schema(table_name):
     """
     return Table(
         table_name, metadata,
+        Column('event_id', Integer),
         Column('place', Integer),
         Column('first_name', String(100), nullable=False),
         Column('last_name', String(100), nullable=False),
-        Column('city', String(50)),
-        Column('state', String(2)),
+        Column('full_name', String(100), nullable=False),
+        Column('city', String(100)),
+        Column('state', String(5)), # Country code for international
         Column('age', Integer, nullable=False),
         Column('division', String(3)),
         Column('division_place', Integer),
         Column('time', Interval),
+        Column('time_seconds', Float),
         Column('runner_rank', Float),
-        Column('athlete_url', String(100)),
+        Column('athlete_url', String(150)),
         Column('year', Integer, nullable=False),
     )
 
@@ -122,4 +125,31 @@ def test_connection(db_url):
             return True
     except SQLAlchemyError as e:
         print(f"Connection failed: {e}")
+        return False
+
+def upload_data_to_table(db_url, table_name, df, replace=False):
+    """
+    Uploads data to a table in the database.
+
+    Args:
+        db_url (str): The URL of the database.
+        table_name (str): The name of the table to upload data to.
+        df (DataFrame): The data to upload.
+        replace (bool): Whether to replace the data to the table or append.
+    Returns:
+        bool: True if the data was uploaded successfully, False otherwise.
+    """
+    try:
+        df.to_sql(
+            table_name,
+            create_engine(db_url),
+            if_exists='replace' if replace else 'append',
+            index=False
+        )
+        return True
+    except SQLAlchemyError as e:
+        print(f"Error uploading data to table: {e}")
+        return False
+    except Exception as e:
+        print(f"Unexpected error: {e}")
         return False

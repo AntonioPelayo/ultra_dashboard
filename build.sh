@@ -12,6 +12,9 @@ export $(grep -v '^#' .env | xargs)
 # ./venv/bin/python database/create_or_drop_table.py $DATABASE_URL <table_name> <optional: --c or --d>
 # ./venv/bin/python database/create_or_drop_table.py $DATABASE_URL temp_table
 
+### Insert data
+# ./venv/bin/python database/upload_data.py $DATABASE_URL <table_name> <path_to_csv> <optional: --r(eplace)>
+
 ### List tables
 # ./venv/bin/python database/list_tables.py <optional: DB_URL>
 # ./venv/bin/python database/list_tables.py $DATABASE_URL
