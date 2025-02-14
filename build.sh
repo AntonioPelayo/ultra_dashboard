@@ -8,7 +8,7 @@ export $(grep -v '^#' .env | xargs)
 # ./venv/bin/python database/test_connection.py <optional: DB_URL>
 # ./venv/bin/python database/test_connection.py $DATABASE_URL
 
-### Create table
+### Create or drop table
 # ./venv/bin/python database/create_or_drop_table.py $DATABASE_URL <table_name> <optional: --c or --d>
 # ./venv/bin/python database/create_or_drop_table.py $DATABASE_URL temp_table
 

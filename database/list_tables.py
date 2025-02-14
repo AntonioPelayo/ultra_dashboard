@@ -1,23 +1,29 @@
+import argparse
 import os
 import sys
 
 from utils import get_tables
 
 def main():
-    if len(sys.argv) == 1:
-        db_url = os.getenv("DATABASE_URL")
-    elif len(sys.argv) == 2:
-        db_url = sys.argv[1]
-    else:
-        print("Usage: python database/list_tables.py <optional: db_url>")
+    parser = argparse.ArgumentParser(description="List all tables in the database.")
+    parser.add_argument(
+        "db_url",
+        nargs="?",
+        default=os.getenv("DATABASE_URL"),
+        help="The database URL (defaults to the DATABASE_URL environment variable)"
+    )
+    args = parser.parse_args()
+
+    if not args.db_url:
+        print("Error: No database URL provided and DATABASE_URL environment variable is not set.")
         sys.exit(1)
 
-    print("Getting tables...")
-    tables = get_tables(db_url)
-    print("-------")
+    print("Getting tables in database...")
+    tables = get_tables(args.db_url)
+    print("-"*40)
     for table in tables:
         print(table)
-    print("-------------")
+    print("-"*40)
     print("End of tables")
 
 if __name__ == "__main__":
