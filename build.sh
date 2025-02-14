@@ -21,7 +21,11 @@ export $(grep -v '^#' .env | xargs)
 
 
 ## Web app
-### TODO: list commands
+### Development with auto reload
+# ./venv/bin/python -m ultra_dashboard.app
+
+### Heroku deployment
+# ./venv/bin/python -m gunicorn ultra_dashboard.app:server -b 127.0.0.1:8050
 
 
 # Unset the environment variables

@@ -16,7 +16,9 @@ def get_race_table_name(race):
         str: The corresponding table name in the database.
     """
     if race == "WSER":
-        return "wser_historical_results"
+        return "wser"
+    elif race == "Broken Arrow Skyrace 46k":
+        return "broken_arrow_46k"
     elif race == "Big Alta":
         return "big_alta"
     else:
@@ -50,7 +52,7 @@ def get_finishers_per_year(race):
     return execute_query(f"""
         SELECT year, COUNT(*) AS finishers
         FROM {get_race_table_name(race)}
-        WHERE time != '00:00:00'
+        WHERE time_seconds > 0
         GROUP BY year
         ORDER BY year;
     """)
